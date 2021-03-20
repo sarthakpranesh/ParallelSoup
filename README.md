@@ -21,7 +21,9 @@ PRs are welcomed, please fork this repository before following the below steps
 * `pip3 install -r requirements.txt`
 * `python3 cli.py`
 
+Build project: `python3 -m build`
+
 <br />
 
 ## Issues
-This library is still in development, for reporting any bugs or suggestions please open a new issue [here](https://github.com/sarthakpranesh/StenoCLI/issues)
+This library is still in development, for reporting any bugs or suggestions please open a new issue [here](https://github.com/sarthakpranesh/ParallelSoup/issues)
