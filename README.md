@@ -6,8 +6,9 @@ A library that utilizes BeautifulSoup to provide multi threaded scrapping, reduc
 ## Aim
 The library should implement the following affectively: (this list can be extended in future):
 * Parallelization (I mean duh, you didn't see the repo name or what...)
-* Should have a generic interface that maps to beautiful soup
-* All parts of the library should be documented heavily
+* Should consider the fact that user already has serial BeautifulSoup code
+* Adding to above point: should be easier for user too just use our library
+* All parts of the library should be documented
 * All parts of the library should have unit tests written for verification of their functionality
 * Showcase written examples for different sorts of scrapping
 

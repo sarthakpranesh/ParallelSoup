@@ -1,23 +1,31 @@
 from multiprocessing import Process, Lock, Pipe
+import requests
+from bs4 import BeautifulSoup
 import math
 import time
 
 class ParallelSoup:
     # Class constructor
-    def __init__(self, threads = 2, urls = []):
+    def __init__(self, threads = 2, urls = [], extractor = {}):
         self.threads = threads
         self.siteURLs = urls
+        self.extractor = extractor
         self.processData = {}
 
     def threadedProgram(self, threadId, urls, comm, lock):
-        time.sleep(10)
-
+        
+        data = []
+        for url in urls:
+            r = requests.get(url)
+            soup = BeautifulSoup(r.content, features="html.parser")
+            data = data + self.extractor(soup)
+            
         # After work is done,
         # Acquire lock and send data back
         lock.acquire()
         try:
             # Use communication channel and send data back
-            comm.send([threadId, urls])
+            comm.send([threadId, data])
         finally:
             # Finally release lock, for others too acquire
             lock.release()
@@ -60,5 +68,5 @@ class ParallelSoup:
     def get(self):
         arr = []
         for k in self.processData.keys():
-            arr.append(self.processData[k])
+            arr = arr + self.processData[k]
         return arr
