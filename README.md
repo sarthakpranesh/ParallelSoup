@@ -20,9 +20,7 @@ PRs are welcomed, please fork this repository before following the below steps
 * `virtualenv .`
 * `source ./bin/activate`
 * `pip3 install -r requirements.txt`
-* `python3 cli.py`
-
-Build project: `python3 -m build`
+* `bash install.sh`
 
 <br />
 
