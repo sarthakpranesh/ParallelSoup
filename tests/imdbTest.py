@@ -1,4 +1,6 @@
 from parallelsoup import ParallelSoup
+from datetime import datetime
+import time
 
 urls = []
 for i in range(0, 10):
@@ -12,9 +14,33 @@ def extractor(soup):
             data.append(title.text)
     return data
 
+# Serial Execution
+from bs4 import BeautifulSoup
+import requests
+serialTimeStart = time.time()
+data = []
+for url in urls:
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, features="html.parser")
+    data = data + extractor(soup)
+serialTimeStop = time.time()
+
+
+# ParallelSoup
+parallelTimeStart = time.time()
 ps = ParallelSoup(8, urls, extractor)
 ps.start()
+dataParallel = ps.get()
+parallelTimeStop = time.time()
 
-file = open('read.txt', 'w')
-file.write(",".join(ps.get()))
-file.close()
+print('Serial Execution Time(seconds):', serialTimeStop - serialTimeStart)
+print('ParallelSoup Execution Time(seconds):', parallelTimeStop - parallelTimeStart)
+
+print('Checking the Parallel Soup Result with Serial Result')
+resultsNotEqual = False
+for i in range(0, len(data)):
+    if data[i] not in dataParallel:
+        print('Index at fault:', i, '\t Val:', data[i])
+        resultsNotEqual = True
+        break
+print('Are both Serial and ParallelSoup scraping results equal?', not resultsNotEqual)
